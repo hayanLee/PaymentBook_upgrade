@@ -12,7 +12,7 @@ const StWrapper = styled.div`
     overflow: hidden;
 `;
 
-export default function Layout() {
+export default function DefaultLayout() {
     return (
         <StWrapper>
             <Outlet />

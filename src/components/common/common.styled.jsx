@@ -14,13 +14,23 @@ export const StInput = styled.input`
     padding: 5px;
     border: none;
     border-radius: 5px;
+    width: 100%;
 
     &:focus {
         outline: 3px solid var(--point-color);
     }
 `;
+
+export const StBtnWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    gap: 10px;
+`;
+
 export const StButton = styled.button`
-    background-color: var(--point-color);
+    background-color: ${({ highlight }) =>
+        highlight === 'yellow' ? 'var(--second-color)' : 'var(--point-color)'};
     text-transform: uppercase;
     font-weight: bold;
     border: none;
@@ -29,8 +39,13 @@ export const StButton = styled.button`
     cursor: pointer;
 
     &:hover {
-        filter: brightness(130%);
-        transform: scale(1.1);
+        filter: brightness(120%);
+        transform: scale(1.03);
         transition: 0.2s;
     }
+`;
+
+export const StTitle = styled.h1`
+    font-size: 1.5rem;
+    font-weight: bold;
 `;

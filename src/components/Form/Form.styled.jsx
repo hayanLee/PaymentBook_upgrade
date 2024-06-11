@@ -10,3 +10,14 @@ export const StForm = styled.form`
     /* background-color: var(--first-color); */
     border-radius: 10px;
 `;
+
+export const StAuthForm = styled.form`
+    height: 500px;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding: 50px;
+`;
