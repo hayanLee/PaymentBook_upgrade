@@ -11,9 +11,10 @@ function SignUpPage() {
     const navigate = useNavigate();
     const [signUpInfo, onChangeSignUpInfo] = useInput({ id: '', pw: '', nickname: '' });
 
+    // const {muta} useMutation({ mutationFn: (data) => api.auth.signUp(data) });
+
     const handleSubmit = (e) => {
         e.preventDefault();
-
         if (!validateSignUpInfo(signUpInfo)) return; // 유효성 검사
 
         console.log(signUpInfo); // dispatch 보내기

@@ -12,7 +12,7 @@ export const StForm = styled.form`
 `;
 
 export const StAuthForm = styled.form`
-    height: 500px;
+    height: 450px;
     width: 100%;
 
     display: flex;

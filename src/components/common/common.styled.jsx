@@ -49,3 +49,7 @@ export const StTitle = styled.h1`
     font-size: 1.5rem;
     font-weight: bold;
 `;
+
+export const StSubTitle = styled(StTitle)`
+    font-size: 1rem;
+`;

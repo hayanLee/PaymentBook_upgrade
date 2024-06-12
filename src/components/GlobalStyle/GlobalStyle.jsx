@@ -24,7 +24,7 @@ const GlobalStyle = createGlobalStyle`
     #root{
         width: 900px;
         height: 80%;
-        min-height: 900px;
+        min-height: 800px;
     }
 
 `;
