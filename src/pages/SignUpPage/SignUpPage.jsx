@@ -1,5 +1,7 @@
+import { useMutation } from '@tanstack/react-query';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import api from '../../api/api';
 import { StAuthForm } from '../../components/Form/Form.styled';
 import Button from '../../components/common/Button';
 import ControlledInput from '../../components/common/ControlledInput';
@@ -9,15 +11,26 @@ import { validateSignUpInfo } from '../../utils/formValidation';
 
 function SignUpPage() {
     const navigate = useNavigate();
-    const [signUpInfo, onChangeSignUpInfo] = useInput({ id: '', pw: '', nickname: '' });
+    const [signUpInfo, onChangeSignUpInfo] = useInput({
+        id: '',
+        password: '',
+        nickname: '',
+    });
 
-    // const {muta} useMutation({ mutationFn: (data) => api.auth.signUp(data) });
+    const { mutateAsync: signUp } = useMutation({
+        mutationFn: (data) => api.auth.signUp(data),
+    });
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (!validateSignUpInfo(signUpInfo)) return; // 유효성 검사
 
-        console.log(signUpInfo); // dispatch 보내기
+        try {
+            await signUp(signUpInfo);
+            alert('회원가입이 성공하였습니다!');
+        } catch {
+            alert('회원가입이 실패하였습니다.');
+        }
     };
     const handleClickLoginBtn = (e) => {
         e.preventDefault();
@@ -35,10 +48,10 @@ function SignUpPage() {
                     onChange={onChangeSignUpInfo}
                 />
                 <ControlledInput
-                    name='pw'
+                    name='password'
                     label='비밀번호'
                     type='password'
-                    value={signUpInfo.pw}
+                    value={signUpInfo.password}
                     onChange={onChangeSignUpInfo}
                 />
                 <ControlledInput

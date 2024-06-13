@@ -7,13 +7,15 @@ import LoginPage from '../pages/LoginPage/LoginPage';
 import MyPage from '../pages/MyPage/MyPage';
 import PaymentDetailPage from '../pages/PaymentDetailPage';
 import SignUpPage from '../pages/SignUpPage/SignUpPage';
+import ProtectedRoute from './ProtectedRoute';
+import PublicRoute from './PublicRoute';
 
 const router = createBrowserRouter([
     {
         element: <DefaultLayout />,
         children: [
             {
-                element: <MainLayout />,
+                element: <ProtectedRoute element={<MainLayout />} />,
                 children: [
                     {
                         path: '/',
@@ -30,10 +32,16 @@ const router = createBrowserRouter([
                 ],
             },
             {
-                element: <AuthLayout />,
+                element: <PublicRoute element={<AuthLayout />} />,
                 children: [
-                    { path: '/login', element: <LoginPage /> },
-                    { path: '/sign-up', element: <SignUpPage /> },
+                    {
+                        path: '/login',
+                        element: <LoginPage />,
+                    },
+                    {
+                        path: '/sign-up',
+                        element: <SignUpPage />,
+                    },
                 ],
             },
         ],

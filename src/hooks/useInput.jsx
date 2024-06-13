@@ -8,7 +8,7 @@ export const useInput = (initalState) => {
         setValue((prev) => ({ ...prev, [name]: value }));
     };
 
-    console.log(value);
+    // console.log(value);
 
     return [value, handler];
 };

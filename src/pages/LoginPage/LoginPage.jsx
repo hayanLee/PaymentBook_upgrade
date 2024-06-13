@@ -1,18 +1,39 @@
+import { useMutation } from '@tanstack/react-query';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import api from '../../api/api';
 import { StAuthForm } from '../../components/Form/Form.styled';
 import Button from '../../components/common/Button';
 import ControlledInput from '../../components/common/ControlledInput';
 import { StBtnWrapper, StTitle } from '../../components/common/common.styled';
 import { useInput } from '../../hooks/useInput';
+import { setUserInfo } from '../../redux/reducers/slices/auth.slice';
 
 function LoginPage() {
     const navigate = useNavigate();
-    const [loginInfo, onChangeLoginInfo] = useInput({ id: '', pw: '' });
+    const dispatch = useDispatch();
 
-    const handleSubmit = (e) => {
+    const [loginInfo, onChangeLoginInfo] = useInput({ id: '', password: '' });
+
+    const { mutateAsync: logIn } = useMutation({
+        mutationFn: (data) => api.auth.logIn(data),
+    });
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(1);
+
+        try {
+            const { userId, nickname, avatar } = await logIn(loginInfo);
+
+            dispatch(setUserInfo({ userId, nickname, avatar }));
+
+            alert('로그인 성공');
+
+            navigate('/');
+        } catch {
+            alert('로그인이 실패하였습니다');
+        }
     };
     const handleClickSignUpBtn = (e) => {
         e.preventDefault();
@@ -30,10 +51,10 @@ function LoginPage() {
                     onChange={onChangeLoginInfo}
                 />
                 <ControlledInput
-                    name='pw'
+                    name='password'
                     label='비밀번호'
                     type='password'
-                    value={loginInfo.pw}
+                    value={loginInfo.password}
                     onChange={onChangeLoginInfo}
                 />
                 <StBtnWrapper>
