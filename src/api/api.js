@@ -3,7 +3,8 @@ import Auth from './auth.api';
 import Payments from './payments.api';
 
 const BASE_URL = 'https://moneyfulpublicpolicy.co.kr';
-const JSON_SERVER_HOST = 'http://localhost:4000';
+// const JSON_SERVER_HOST = 'http://localhost:4000';
+const JSON_SERVER_HOST = 'https://lumbar-quilled-lens.glitch.me';
 class API {
     #axios;
     #jsonAxios;
