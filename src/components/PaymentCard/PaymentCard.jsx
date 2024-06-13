@@ -46,10 +46,13 @@ const StAmount = styled.span`
     font-weight: bold;
     color: var(--point-color);
 `;
+const StPerson = styled.span`
+    color: var(--point-color);
+`;
 
 export default function PaymentCard({ payment }) {
     const navigate = useNavigate();
-    const { id, date, category, amount, content } = payment;
+    const { id, date, category, amount, content, createdBy } = payment;
     const handleClick = () => {
         navigate(`/payment/${id}`);
     };
@@ -57,7 +60,9 @@ export default function PaymentCard({ payment }) {
         <StCard>
             <StSpanWrapper onClick={handleClick}>
                 <span>{date}</span>
-                <span>{content}</span>
+                <span>
+                    {content} | <StPerson>{createdBy}</StPerson>
+                </span>
             </StSpanWrapper>
             <StAmount>{amount} ₩</StAmount>
         </StCard>

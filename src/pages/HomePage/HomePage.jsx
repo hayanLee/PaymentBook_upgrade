@@ -1,10 +1,10 @@
+import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import api from '../../api/api';
 import Calendar from '../../components/Calendar';
 import Form from '../../components/Form';
 import PaymentsList from '../../components/PaymentsList';
 import { StWrapContainer } from './HomePage.styled';
-
 const MONTHS = Array(12)
     .fill(0)
     .map((_, idx) => idx + 1);
@@ -14,7 +14,19 @@ export default function HomePage() {
     const [month, setMonth] = useState(initalMonth); // 선택된 달
 
     const [filteredPayments, setFilteredPayments] = useState([]);
-    const payments = useSelector((state) => state.payments.payments); // payments data
+
+    const {
+        data: payments,
+        isLoading,
+        isError,
+    } = useQuery({
+        queryKey: ['payment', { list: true }],
+        queryFn: () => api.payments.getPayments(),
+    });
+
+    console.log(payments);
+
+    // const payments = useSelector((state) => state.payments.payments); // payments data
 
     const handleMonth = (selecteMonth) => {
         setMonth(selecteMonth);
@@ -22,14 +34,24 @@ export default function HomePage() {
     };
 
     useEffect(() => {
-        if (month !== undefined) {
-            const filteredPayments = payments.filter((data) => {
-                const filteredMonth = new Date(data.date).getMonth() + 1; // 선택된 달
-                return month === filteredMonth;
+        if (payments) {
+            const filtered = payments.filter((payment) => {
+                const paymentMonth = new Date(payment.date).getMonth() + 1;
+                return month === paymentMonth;
             });
-            setFilteredPayments(filteredPayments);
+            setFilteredPayments(filtered);
         }
     }, [month, payments]);
+
+    console.log('>>>>>>', filteredPayments);
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
+    if (isError) {
+        return <div>Error loading payments</div>;
+    }
 
     return (
         <StWrapContainer>
