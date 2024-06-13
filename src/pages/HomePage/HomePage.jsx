@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react';
 import api from '../../api/api';
 import Calendar from '../../components/Calendar';
 import Form from '../../components/Form';
-import PaymentsList from '../../components/PaymentsList';
+import PaymentList from '../../components/PaymentList';
 import { StWrapContainer } from './HomePage.styled';
 const MONTHS = Array(12)
     .fill(0)
@@ -15,7 +15,7 @@ export default function HomePage() {
 
     const {
         data: payments,
-        isLoading,
+        isPending,
         isError,
     } = useQuery({
         queryKey: ['payment', { list: true }],
@@ -35,9 +35,7 @@ export default function HomePage() {
         });
     }, [month, payments]);
 
-    console.log('필터링된 결과', filteredPayments);
-
-    if (isLoading) {
+    if (isPending) {
         return <div>Loading...</div>;
     }
 
@@ -49,7 +47,7 @@ export default function HomePage() {
         <StWrapContainer>
             <Form />
             <Calendar months={MONTHS} selectedMonth={month} onClickMonth={handleMonth} />
-            <PaymentsList filteredPayments={filteredPayments} />
+            <PaymentList filteredPayments={filteredPayments} />
         </StWrapContainer>
     );
 }

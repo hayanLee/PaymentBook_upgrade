@@ -1,8 +1,7 @@
 {
   "payments": [
     {
-      "id": "46869445-5f9c-4650-941f-41bd9457bc07",
-      "month": 1,
+      "id": "1",
       "date": "2024-01-03",
       "category": "개인사업",
       "amount": 1000000,
@@ -10,8 +9,7 @@
       "createdBy": "Musk"
     },
     {
-      "id": "a5c0d8de-d010-4d07-9934-29765051a7ea",
-      "month": 1,
+      "id": "2",
       "date": "2024-01-07",
       "category": "개인사업",
       "amount": 1000,
@@ -19,8 +17,7 @@
       "createdBy": "Musk"
     },
     {
-      "id": "0d0a966e-5c35-4bf0-aca4-f2b1265a432d",
-      "month": 1,
+      "id": "3",
       "date": "2024-01-13",
       "category": "식비",
       "amount": 2000,
@@ -28,8 +25,7 @@
       "createdBy": "Rosie"
     },
     {
-      "id": "9aba6d72-5ee7-4f02-a4d4-e8bbff9ded4b",
-      "month": 1,
+      "id": "4",
       "date": "2024-01-17",
       "category": "식비",
       "amount": 21000,
@@ -37,8 +33,7 @@
       "createdBy": "Rosie"
     },
     {
-      "id": "b82b213e-8164-4c89-94b0-7246cdcfc4f9",
-      "month": 1,
+      "id": "5",
       "date": "2024-01-21",
       "category": "식비",
       "amount": 412000,
@@ -46,17 +41,15 @@
       "createdBy": "Me"
     },
     {
-      "id": "d180194f-7c27-428a-8cd9-ad9114e58821",
-      "month": 1,
       "date": "2024-01-22",
       "category": "도서",
-      "amount": 23000,
+      "amount": "23000",
       "content": "리액트 마스터",
+      "id": "6",
       "createdBy": "Me"
     },
     {
-      "id": "0abf06c3-8f0e-4ea1-9691-7facab0a91cb",
-      "month": 1,
+      "id": "4b",
       "date": "2024-01-30",
       "category": "외식",
       "amount": 100000,
@@ -64,8 +57,7 @@
       "createdBy": "Me"
     },
     {
-      "id": "d180194f-7c27-428a-8cd9-ad9114e58821",
-      "month": 6,
+      "id": "d41",
       "date": "2024-06-22",
       "category": "외식",
       "amount": 23000,
@@ -73,8 +65,7 @@
       "createdBy": "Me"
     },
     {
-      "id": "0abf06c3-8f0e-4ea1-9691-7facab0a91cb",
-      "month": 6,
+      "id": "07",
       "date": "2024-06-30",
       "category": "외식",
       "amount": 100000,
@@ -82,20 +73,36 @@
       "createdBy": "Me"
     },
     {
-      "id": "2cb9",
-      "date": "2024-06-14",
-      "category": "test",
-      "amount": 2,
-      "content": "qq",
-      "createdBy": "Hayan"
+      "date": "2024-06-13",
+      "category": "쇼핑",
+      "amount": "1234",
+      "content": "여름옷",
+      "createdBy": "hayan",
+      "id": "7d12"
     },
     {
-      "id": "9b96",
-      "date": "2024-06-18",
-      "category": "스니커즈 구매ㅇㅇㄴㅇ",
-      "amount": 5,
-      "content": "쇼핑",
-      "createdBy": "mmmaa"
+      "date": "2024-06-13",
+      "category": "오락",
+      "amount": "1234",
+      "content": "방탈출카페",
+      "createdBy": "hayan",
+      "id": "5230"
+    },
+    {
+      "date": "2024-05-13",
+      "category": "쇼핑",
+      "amount": "66667",
+      "content": "오징어게임",
+      "createdBy": "hayan",
+      "id": "51c5"
+    },
+    {
+      "date": "2024-06-13",
+      "category": "식비",
+      "amount": "123456",
+      "content": "돈까스+냉모밀",
+      "createdBy": "mmmaa",
+      "id": "a1e0"
     }
   ]
 }

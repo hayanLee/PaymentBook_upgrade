@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import api from '../../api/api';
@@ -11,10 +11,16 @@ export default function Form() {
     const categoryRef = useRef(null);
     const amountRef = useRef(null);
     const contentRef = useRef(null);
-    const { nickname } = useSelector((state) => state.auth);
+    const { userId } = useSelector((state) => state.auth);
+    const queryClient = useQueryClient();
 
     const { mutateAsync: AddPayment } = useMutation({
         mutationFn: (data) => api.payments.addPayment(data),
+        onSuccess: () => {
+            alert('데이터가 추가되었습니다');
+            queryClient.invalidateQueries(['payment']);
+            resetForm();
+        },
     });
 
     const handleSubmit = async (e) => {
@@ -35,14 +41,10 @@ export default function Form() {
             category,
             amount: parseInt(amount),
             content,
-            createdBy: `${nickname}`,
+            createdBy: `${userId}`,
         };
 
-        // onSubmit(newData);
         await AddPayment(newData);
-        alert('데이터가 추가됨');
-
-        resetForm();
     };
 
     const resetForm = () => {

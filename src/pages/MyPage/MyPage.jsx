@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import api from '../../api/api';
 import Button from '../../components/common/Button';
 import ControlledInput from '../../components/common/ControlledInput';
@@ -12,18 +13,26 @@ import { updateUserInfo } from '../../redux/reducers/slices/auth.slice';
 function MyPage() {
     const [userInfo, onChangeUserInfo] = useInput({ nickname: '', avatar: null });
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const { mutateAsync: updateProfile } = useMutation({
         mutationFn: (data) => api.auth.updateProfile(data),
+        onSuccess: () => {
+            alert('프로필이 변경 되었습니다');
+            navigate('/');
+            const avatarUrl = userInfo.avatar
+                ? URL.createObjectURL(userInfo.avatar)
+                : null;
+
+            dispatch(updateUserInfo({ nickname: userInfo.nickname, avatar: avatarUrl }));
+        },
     });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         await updateProfile(userInfo);
-
-        dispatch(updateUserInfo({ nickname: userInfo.nickname }));
-        alert('프로필 변경 완료');
     };
+
     return (
         <StWrapper>
             <form onSubmit={handleSubmit}>

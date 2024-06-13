@@ -1,5 +1,6 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRef } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import api from '../../api/api';
 import Button from '../../components/common/Button';
@@ -9,13 +10,15 @@ import { StButtons, StWrapContainer } from './PaymentDetailPage.styled';
 export default function PaymentDetailPage() {
     const { paymentId } = useParams();
     const navigate = useNavigate(); // 뒤로가기
+    const { userId } = useSelector((state) => state.auth);
+    const queryClient = useQueryClient();
 
     const {
         data: payment,
         isError,
-        isLoading,
+        isPending,
     } = useQuery({
-        queryKey: ['payment'],
+        queryKey: ['payment', paymentId],
         queryFn: () => api.payments.getPayment(paymentId),
     });
 
@@ -23,10 +26,10 @@ export default function PaymentDetailPage() {
         mutationFn: (data) => api.payments.updatePayment(data),
         onSuccess: () => {
             alert('수정되었습니다');
+            queryClient.invalidateQueries(['payment', paymentId]);
             navigate('/');
         },
     });
-    console.log('<<<<<', payment);
 
     const { mutateAsync: deletePayment } = useMutation({
         mutationFn: (paymentId) => api.payments.deletePayment(paymentId),
@@ -48,6 +51,11 @@ export default function PaymentDetailPage() {
         const amount = amountRef.current.value;
         const content = contentRef.current.value;
 
+        if (userId !== payment.createdBy) {
+            alert(`${userId} 님이 작성하신 글이 아닙니다`);
+            return;
+        }
+
         if (!date || !category || !amount || !content) {
             alert('모든 필드를 작성해주세요.');
             return;
@@ -59,6 +67,7 @@ export default function PaymentDetailPage() {
             category,
             amount,
             content,
+            createdBy: userId,
         };
 
         await updatePayment(modifiedPayment);
@@ -74,7 +83,7 @@ export default function PaymentDetailPage() {
         navigate(-1);
     };
 
-    if (isLoading) {
+    if (isPending) {
         return <div>Loading...</div>;
     }
 
@@ -105,8 +114,12 @@ export default function PaymentDetailPage() {
             />
 
             <StButtons>
-                <Button value='수정' onClick={handleSave} />
-                <Button value='삭제' onClick={handleDelete} />
+                {userId === payment.createdBy && (
+                    <>
+                        <Button value='수정' onClick={handleSave} />
+                        <Button value='삭제' onClick={handleDelete} />
+                    </>
+                )}
                 <Button value='뒤로 가기' onClick={handleBack} />
             </StButtons>
         </StWrapContainer>

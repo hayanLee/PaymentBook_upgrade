@@ -2,10 +2,9 @@ import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
 const PublicRoute = ({ element }) => {
-    const { userId, isLoading } = useSelector((state) => state.auth);
-    console.log('여긴 publicRoute', userId, isLoading);
+    const { userId } = useSelector((state) => state.auth);
+    console.log('🔥publicRoute', userId);
 
-    if (isLoading) return null;
     return userId ? <Navigate to='/' /> : element;
 };
 
