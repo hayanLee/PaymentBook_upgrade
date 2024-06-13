@@ -1,19 +1,40 @@
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import api from '../../api/api';
 import Button from '../../components/common/Button';
 import Input from '../../components/common/Input';
-import { deletePayment, updatePayment } from '../../redux/reducers/slices/payment.slice';
 import { StButtons, StWrapContainer } from './PaymentDetailPage.styled';
 
 export default function PaymentDetailPage() {
     const { paymentId } = useParams();
     const navigate = useNavigate(); // 뒤로가기
 
-    const dispatch = useDispatch();
-    const payments = useSelector((state) => state.payments.payments);
+    const {
+        data: payment,
+        isError,
+        isLoading,
+    } = useQuery({
+        queryKey: ['payment'],
+        queryFn: () => api.payments.getPayment(paymentId),
+    });
 
-    const targetPayment = payments.find((data) => data.id === paymentId); // 대상
+    const { mutateAsync: updatePayment } = useMutation({
+        mutationFn: (data) => api.payments.updatePayment(data),
+        onSuccess: () => {
+            alert('수정되었습니다');
+            navigate('/');
+        },
+    });
+    console.log('<<<<<', payment);
+
+    const { mutateAsync: deletePayment } = useMutation({
+        mutationFn: (paymentId) => api.payments.deletePayment(paymentId),
+        onSuccess: () => {
+            alert('삭제되었습니다');
+            navigate('/');
+        },
+    });
 
     // 변경된 payment 저장
     const dateRef = useRef(null);
@@ -21,7 +42,7 @@ export default function PaymentDetailPage() {
     const amountRef = useRef(null);
     const contentRef = useRef(null);
 
-    const handleSave = () => {
+    const handleSave = async () => {
         const date = dateRef.current.value;
         const category = categoryRef.current.value;
         const amount = amountRef.current.value;
@@ -33,21 +54,19 @@ export default function PaymentDetailPage() {
         }
 
         const modifiedPayment = {
-            id: targetPayment.id,
+            paymentId,
             date,
             category,
             amount,
             content,
         };
 
-        dispatch(updatePayment(modifiedPayment));
-        navigate(-1);
+        await updatePayment(modifiedPayment);
     };
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         if (confirm('해당 지출 항목을 삭제하시겠습니까?')) {
-            dispatch(deletePayment(targetPayment));
-            navigate(-1);
+            await deletePayment(paymentId);
         }
     };
 
@@ -55,33 +74,34 @@ export default function PaymentDetailPage() {
         navigate(-1);
     };
 
-    if (!targetPayment) return null;
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
+    if (isError) {
+        return <div>Error loading payments</div>;
+    }
 
     return (
         <StWrapContainer>
-            <Input
-                ref={dateRef}
-                label='날짜'
-                type='date'
-                defaultValue={targetPayment.date}
-            />
+            <Input ref={dateRef} label='날짜' type='date' defaultValue={payment.date} />
             <Input
                 ref={categoryRef}
                 label='분류'
                 type='text'
-                defaultValue={targetPayment.category}
+                defaultValue={payment.category}
             />
             <Input
                 ref={amountRef}
                 label='금액'
                 type='number'
-                defaultValue={targetPayment.amount}
+                defaultValue={payment.amount}
             />
             <Input
                 ref={contentRef}
                 label='내용'
                 type='text'
-                defaultValue={targetPayment.content}
+                defaultValue={payment.content}
             />
 
             <StButtons>

@@ -52,7 +52,7 @@ const StPerson = styled.span`
 
 export default function PaymentCard({ payment }) {
     const navigate = useNavigate();
-    const { id, date, category, amount, content, createdBy } = payment;
+    const { id, date, amount, content, createdBy } = payment;
     const handleClick = () => {
         navigate(`/payment/${id}`);
     };

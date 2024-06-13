@@ -1,7 +1,7 @@
+import { useMutation } from '@tanstack/react-query';
 import { useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import { v4 as uuidv4 } from 'uuid';
-import { addPayment } from '../../redux/reducers/slices/payment.slice';
+import { useSelector } from 'react-redux';
+import api from '../../api/api';
 import Button from '../common/Button';
 import Input from '../common/Input';
 import { StForm } from './Form.styled';
@@ -11,11 +11,13 @@ export default function Form() {
     const categoryRef = useRef(null);
     const amountRef = useRef(null);
     const contentRef = useRef(null);
+    const { nickname } = useSelector((state) => state.auth);
 
-    const dispatch = useDispatch();
-    const onSubmit = (newData) => dispatch(addPayment(newData));
+    const { mutateAsync: AddPayment } = useMutation({
+        mutationFn: (data) => api.payments.addPayment(data),
+    });
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const date = dateRef.current.value;
@@ -29,14 +31,17 @@ export default function Form() {
         }
 
         const newData = {
-            id: uuidv4(),
             date,
             category,
             amount: parseInt(amount),
             content,
+            createdBy: `${nickname}`,
         };
 
-        onSubmit(newData);
+        // onSubmit(newData);
+        await AddPayment(newData);
+        alert('데이터가 추가됨');
+
         resetForm();
     };
 

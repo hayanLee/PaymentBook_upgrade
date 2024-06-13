@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import api from '../../api/api';
 import Calendar from '../../components/Calendar';
 import Form from '../../components/Form';
@@ -13,8 +13,6 @@ export default function HomePage() {
     const initalMonth = parseInt(localStorage.getItem('selectedMonth')) || 1;
     const [month, setMonth] = useState(initalMonth); // 선택된 달
 
-    const [filteredPayments, setFilteredPayments] = useState([]);
-
     const {
         data: payments,
         isLoading,
@@ -24,26 +22,20 @@ export default function HomePage() {
         queryFn: () => api.payments.getPayments(),
     });
 
-    console.log(payments);
-
-    // const payments = useSelector((state) => state.payments.payments); // payments data
-
     const handleMonth = (selecteMonth) => {
         setMonth(selecteMonth);
         localStorage.setItem('selectedMonth', selecteMonth);
     };
 
-    useEffect(() => {
-        if (payments) {
-            const filtered = payments.filter((payment) => {
-                const paymentMonth = new Date(payment.date).getMonth() + 1;
-                return month === paymentMonth;
-            });
-            setFilteredPayments(filtered);
-        }
+    const filteredPayments = useMemo(() => {
+        if (!payments) return [];
+        return payments.filter((payment) => {
+            const paymentMonth = new Date(payment.date).getMonth() + 1;
+            return month === paymentMonth;
+        });
     }, [month, payments]);
 
-    console.log('>>>>>>', filteredPayments);
+    console.log('필터링된 결과', filteredPayments);
 
     if (isLoading) {
         return <div>Loading...</div>;

@@ -14,7 +14,7 @@ export const useInput = (initalState) => {
         }
     };
 
-    console.log(value);
+    // console.log(value);
 
     return [value, handler];
 };
