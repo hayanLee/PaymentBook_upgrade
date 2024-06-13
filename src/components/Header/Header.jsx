@@ -1,29 +1,31 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { clearUserInfo } from '../../redux/reducers/slices/auth.slice';
 import Button from '../common/Button';
-import { StHeader, StLink } from './Header.styled';
+import { Nickname, StAvatar, StHeader, StLink, StWrapper } from './Header.styled';
 
 function Header() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const handleClick = () => {
+    const handleLogOutBtnClick = () => {
         localStorage.clear();
         dispatch(clearUserInfo());
         navigate('/login');
     };
+
+    const { nickname, avatar } = useSelector((state) => state.auth);
     return (
         <StHeader>
-            <div>
+            <StWrapper>
                 <StLink to='/'>HOME</StLink>
                 <StLink to='/mypage'>내 프로필</StLink>
-            </div>
-            <div>
-                <span>이미지</span>
-                <span>닉네임</span>
-                <Button value={'로그아웃'} onClick={handleClick} />
-            </div>
+            </StWrapper>
+            <StWrapper>
+                <StAvatar avatar={avatar} />
+                <Nickname>{nickname}</Nickname>
+                <Button value={'로그아웃'} onClick={handleLogOutBtnClick} />
+            </StWrapper>
         </StHeader>
     );
 }
