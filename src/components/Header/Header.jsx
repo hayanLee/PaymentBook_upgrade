@@ -22,8 +22,8 @@ function Header() {
                 <StLink to='/mypage'>내 프로필</StLink>
             </StWrapper>
             <StWrapper>
-                <StAvatar avatar={avatar} />
                 <Nickname>{nickname}</Nickname>
+                <StAvatar $avatar={avatar} />
                 <Button value={'로그아웃'} onClick={handleLogOutBtnClick} />
             </StWrapper>
         </StHeader>

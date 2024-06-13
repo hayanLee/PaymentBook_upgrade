@@ -9,12 +9,9 @@ export const useInput = (initalState) => {
         if (type === 'file') {
             setValue((prev) => ({ ...prev, [name]: files[0] }));
         } else {
-            console.log('xxx');
             setValue((prev) => ({ ...prev, [name]: value }));
         }
     };
-
-    // console.log(value);
 
     return [value, handler];
 };

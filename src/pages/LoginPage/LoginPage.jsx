@@ -25,10 +25,8 @@ function LoginPage() {
 
         try {
             const { userId, nickname, avatar } = await logIn(loginInfo);
-
             dispatch(setUserInfo({ userId, nickname, avatar }));
-
-            alert('로그인 성공');
+            alert('로그인 성공하였습니다');
 
             navigate('/');
         } catch {

@@ -35,12 +35,11 @@ export const StAvatar = styled.div`
     width: 40px;
     height: 40px;
     border-radius: 100%;
-    background-color: ${({ avatar }) => (avatar ? 'none' : 'var(--second-color)')};
-    background-image: url(${({ avatar }) => avatar || 'none'});
+    background-color: ${({ $avatar }) => ($avatar ? 'none' : 'var(--second-color)')};
+    background-image: url(${({ $avatar }) => $avatar || 'none'});
     background-size: cover;
     background-position: center;
     display: inline-block;
-    margin-right: 10px;
 `;
 
 export const Nickname = styled.span`

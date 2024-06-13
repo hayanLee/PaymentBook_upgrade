@@ -14,6 +14,7 @@ function ControlledInput({ name, label, type, value, onChange, placeholder }) {
                 onChange={onChange}
                 placeholder={placeholder}
                 accept={type === 'file' ? 'image/png, image/jpeg' : ''}
+                autoComplete='on'
             />
         </StInputWrapper>
     );

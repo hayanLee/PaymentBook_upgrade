@@ -29,8 +29,8 @@ export const StBtnWrapper = styled.div`
 `;
 
 export const StButton = styled.button`
-    background-color: ${({ highlight }) =>
-        highlight === 'yellow' ? 'var(--second-color)' : 'var(--point-color)'};
+    background-color: ${({ $highlight }) =>
+        $highlight === 'yellow' ? 'var(--second-color)' : 'var(--point-color)'};
     text-transform: uppercase;
     font-weight: bold;
     border: none;
