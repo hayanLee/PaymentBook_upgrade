@@ -12,6 +12,16 @@ const authSlice = createSlice({
             state.avatar = avatar;
             state.isLoading = false;
         },
+        updateUserInfo: (state, action) => {
+            const { nickname, avatar } = action.payload;
+            console.log('>>>>', nickname, avatar);
+            if (nickname !== undefined) {
+                state.nickname = nickname;
+            }
+            if (avatar !== undefined) {
+                state.avatar = avatar;
+            }
+        },
         setLoading(state, action) {
             state.isLoading = action.payload;
         },
@@ -24,5 +34,6 @@ const authSlice = createSlice({
     },
 });
 
-export const { setUserInfo, setLoading, clearUserInfo } = authSlice.actions;
+export const { setUserInfo, updateUserInfo, setLoading, clearUserInfo } =
+    authSlice.actions;
 export const authReducer = authSlice.reducer;

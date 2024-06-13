@@ -36,8 +36,21 @@ class Auth {
     }
     async updateProfile(data) {
         const path = '/profile';
-        const response = await this.#axios.patch(path, data);
-        return response;
+        const accessToken = localStorage.getItem('accessToken');
+
+        if (!accessToken) return;
+
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${accessToken}`,
+            },
+        };
+
+        const response = await this.#axios.patch(path, data, config);
+        console.log('>>>프로필 변경', response);
+        const result = response.data;
+        return result;
     }
 }
 
